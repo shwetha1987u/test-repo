@@ -10,7 +10,7 @@
 
     - name: Fetch the file to local hosts
       fetch:
-        src: {{ file_output.stdout }}
+        src: "{{ file_output.stdout }}"
         dest: /tmp/
         flat: true
 
