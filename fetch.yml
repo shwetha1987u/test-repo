@@ -1,0 +1,32 @@
+- hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: list the file
+      shell: cat /home/ansible/fetch-test
+      register: file_output
+      
+    - debug: var=file_output
+
+    - name: Fetch the file to local hosts
+      fetch:
+        src: {{ file_output.stdout }}
+        dest: /tmp/
+        flat: true
+
+    - name: list the file
+      shell: cat /home/ansible/fetch-test-1
+      register: file1_output
+      
+    - debug: var=file1_output
+
+    - name: Fetch the file to local hosts
+      fetch:
+        src: "{{ file1_output.stdout }}"
+        dest: /tmp/
+        flat: true
+
+    - name: Push test
+      copy:
+        src: /tmp/
+        dest: /tmp/fetch
